@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Arcadia_Test.Configuration\Arcadia_Test.Configuration.csproj" />
+    <ProjectReference Include="..\Arcadia_Test.Data\Arcadia_Test.Data.csproj" />
+    <ProjectReference Include="..\Arcadia_Test.Services\Arcadia_Test.Services.csproj" />
+  </ItemGroup>
+
+
+</Project>
