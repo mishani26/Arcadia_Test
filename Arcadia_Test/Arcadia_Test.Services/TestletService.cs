@@ -25,7 +25,7 @@
             {
                 ItemId = index.ToString(),
                 ItemType = index < _config.Value.PretestItemsCount ? TestItemTypeEnum.Pretest : TestItemTypeEnum.Operational
-            });
+            }).ToList();
 
             return new Testlet(new Random().Next().ToString(), _testRandomizeService.Randomize(testItems));
         }

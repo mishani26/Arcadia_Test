@@ -5,6 +5,6 @@
 
     public interface ITestRandomizeService
     {
-        IEnumerable<TestItem> Randomize(IEnumerable<TestItem> testItems);
+        IEnumerable<TestItem> Randomize(IReadOnlyList<TestItem> testItems);
     }
 }

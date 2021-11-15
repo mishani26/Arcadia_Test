@@ -4,8 +4,6 @@ namespace Arcadia_Test.Tests
     using Moq;
     using Arcadia_Test.Services.Interfaces;
     using System.Linq;
-    using Arcadia_Test.Data;
-    using Arcadia_Test.Data.Enums;
     using Microsoft.Extensions.Options;
     using Arcadia_Test.Configuration;
     using Arcadia_Test.Services;
@@ -15,24 +13,14 @@ namespace Arcadia_Test.Tests
         [Test]
         public void Return_Value_Not_Null()
         {
-            var testItems = Enumerable.Range(0, 10).Select(index => new TestItem
-            {
-                ItemId = index.ToString(),
-                ItemType = index < 2 ? TestItemTypeEnum.Pretest : TestItemTypeEnum.Operational
-            });
-
-            var config = new AppConfig();
-            config.FirstPretestItemsCount = 2;
-            config.TestItemsLength = 10;
-            config.PretestItemsCount = 4;
-
-
+            var config = TestUtils.BuildAppConfig(2, 10, 4);
+            var testItems = TestUtils.BuildTestItems(config);
 
             var mockConfig = new Mock<IOptions<AppConfig>>();
             mockConfig.Setup(x => x.Value).Returns(config);
 
             var mockService = new Mock<ITestRandomizeService>();
-            mockService.Setup(x => x.Randomize(testItems)).Returns(testItems);
+            mockService.Setup(x => x.Randomize(testItems.ToList())).Returns(testItems);
 
             var testletService = new TestletService(mockConfig.Object, mockService.Object);
 
@@ -43,24 +31,14 @@ namespace Arcadia_Test.Tests
         [Test]
         public void Return_Id_Not_Null()
         {
-            var testItems = Enumerable.Range(0, 10).Select(index => new TestItem
-            {
-                ItemId = index.ToString(),
-                ItemType = index < 2 ? TestItemTypeEnum.Pretest : TestItemTypeEnum.Operational
-            });
-
-            var config = new AppConfig();
-            config.FirstPretestItemsCount = 2;
-            config.TestItemsLength = 10;
-            config.PretestItemsCount = 4;
-
-
+            var config = TestUtils.BuildAppConfig(2, 10, 4);
+            var testItems = TestUtils.BuildTestItems(config);
 
             var mockConfig = new Mock<IOptions<AppConfig>>();
             mockConfig.Setup(x => x.Value).Returns(config);
 
             var mockService = new Mock<ITestRandomizeService>();
-            mockService.Setup(x => x.Randomize(testItems)).Returns(testItems);
+            mockService.Setup(x => x.Randomize(testItems.ToList())).Returns(testItems);
 
             var testletService = new TestletService(mockConfig.Object, mockService.Object);
 

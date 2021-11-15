@@ -17,25 +17,26 @@
         {
             _config = config;
         }
-        public IEnumerable<TestItem> Randomize(IEnumerable<TestItem> testItems)
+        public IEnumerable<TestItem> Randomize(IReadOnlyList<TestItem> testItems)
         {
 
             if (_config.Value.FirstPretestItemsCount > _config.Value.PretestItemsCount)
             {
-                throw new Exception($"Pretest items count cannot be less then in begin");
+                throw new TestException($"Pretest items count cannot be less then in begin");
             }
 
-            var pretestItems = testItems.Where(s => s.ItemType == TestItemTypeEnum.Pretest);
+            var pretestItems = testItems.Where(s => s.ItemType == TestItemTypeEnum.Pretest).ToList();
 
-            if(pretestItems.Count() != _config.Value.PretestItemsCount)
+            if(pretestItems.Count != _config.Value.PretestItemsCount)
             {
-                throw new Exception($"Pretest items count must be {_config.Value.PretestItemsCount}");
+                throw new TestException($"Pretest items count must be {_config.Value.PretestItemsCount}");
             }
 
-            var result = pretestItems.Take(_config.Value.FirstPretestItemsCount);
+            var result = pretestItems.Take(_config.Value.FirstPretestItemsCount).ToArray();
+            var resultIds = result.Select(x => x.ItemId).ToHashSet();
 
-            var shufleList = testItems.Where(s => !result.Select(x => x.ItemId).Contains(s.ItemId)).ToArray();
-            int shufleLength = testItems.Count() - _config.Value.FirstPretestItemsCount; 
+            var shufleList = testItems.Where(s => !resultIds.Contains(s.ItemId)).ToArray();
+            int shufleLength = testItems.Count - _config.Value.FirstPretestItemsCount; 
             var rng = new Random();
             while (shufleLength > 1)
             {
