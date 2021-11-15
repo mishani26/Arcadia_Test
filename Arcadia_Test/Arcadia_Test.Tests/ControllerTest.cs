@@ -15,11 +15,7 @@ namespace Arcadia_Test.Tests
         [Test]
         public void Return_Value_Not_Null()
         {
-            var testItems = Enumerable.Range(0, 10).Select(index => new TestItem
-            {
-                ItemId = index.ToString(),
-                ItemType = index < 2 ? TestItemTypeEnum.Pretest : TestItemTypeEnum.Operational
-            });
+            var testItems = TestUtils.BuildTestItems(10, 2);
 
             var testlet = new Testlet(string.Empty, testItems);
 
